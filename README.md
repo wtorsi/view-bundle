@@ -1,6 +1,7 @@
 # Symfony view-bundle
 
 The goal of the bundle is to provide a convenient way of transforming PHP objects into JSON response while using it with the API.
+It's mainly used with typescript, but could be used by other languages as well.
 
 ```
 #[Route('/user/me', methods: ['GET'], priority: 1)]
@@ -35,9 +36,20 @@ class UserView extends BindView
 
 ```
 
-
-# Installation 
+# Installation
 
 ```
-composer install wtorsi/view-bundle
+composer install wtorsi/view-bundle:^6.3
 ```
+
+# Supported internal views
+
+`\Dev\ViewBundle\View\ResponseView` - the main view that can be considered as a response. Contains required headers that can be overridden.
+
+`\Dev\ViewBundle\View\DataView` - the inherited view of the `ResponseView`, that wraps all the data into `data` JSON key.
+
+`\Dev\ViewBundle\View\BindView` - the helper view that maps the properties of the underlined object to the view as one to one. The most powerful one.
+
+`\Dev\ViewBundle\View\IterableView` - the view for the iterable objects, can be used together with the `\Dev\ViewBundle\Annotation\Type`
+attribute to simplify the usage. In this case the underlined iterable objects will be automatically constructed based on the configured
+type. 
