@@ -39,7 +39,7 @@ class UserView extends BindView
 # Installation
 
 ```
-composer install wtorsi/view-bundle:^6.3
+composer install wtorsi/view-bundle:7.0.*
 ```
 
 # Supported internal views
