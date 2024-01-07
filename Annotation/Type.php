@@ -7,9 +7,9 @@ namespace Dev\ViewBundle\Annotation;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final class Type
+final readonly class Type
 {
-    public function __construct(public readonly string $class)
+    public function __construct(public string $class)
     {
     }
 }

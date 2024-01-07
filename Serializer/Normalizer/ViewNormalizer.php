@@ -5,43 +5,33 @@ declare(strict_types=1);
 namespace Dev\ViewBundle\Serializer\Normalizer;
 
 use Dev\ViewBundle\View\ViewInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ViewNormalizer extends ObjectNormalizer
+class ViewNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
-    public const VIEW_KEY = '__type__';
+    use NormalizerAwareTrait;
 
-    public function normalize(mixed $object, string $format = null, array $context = []): array
+    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $normalized[self::VIEW_KEY] = $object::$__id__ ?? self::fetchId($object);
-        return \array_merge($normalized, \array_filter(parent::normalize($object, $format, $context), static fn(mixed $v) => null !== $v));
+        $data = [];
+        foreach ((array)$object as $k => $v) {
+            if (null === $v) {
+                continue;
+            }
+            $data[$k] = $this->normalizer->normalize($v, $format, $context);
+        }
+        return $data;
+    }
+
+    public function getSupportedTypes(string|null $format): array
+    {
+        return [ViewInterface::class => true];
     }
 
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof ViewInterface;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return false;
-    }
-
-    public function getSupportedTypes(string|null $format): array
-    {
-        return ['*' => false];
-    }
-
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
-    {
-        return false;
-    }
-
-    private static function fetchId(object $object): string
-    {
-        $strings = \explode("\\", \get_class($object));
-        $view = \end($strings);
-        $namespace = \current(\array_filter($strings, static fn(string $v) => !\in_array($v, ['Api', 'View', $view]))) ?? null;
-        return $namespace ? $namespace . '\\' . $view : $view;
     }
 }

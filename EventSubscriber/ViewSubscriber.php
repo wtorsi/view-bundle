@@ -15,7 +15,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[AsEventListener(ViewEvent::class)]
 readonly class ViewSubscriber
 {
-    public function __construct(private SerializerInterface $serializer)
+    public function __construct(
+        private SerializerInterface $serializer,
+    )
     {
     }
 

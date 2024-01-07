@@ -9,7 +9,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class KeyValueView extends View implements NormalizableInterface
 {
-    public function __construct(private string $key, private array $view)
+    public function __construct(
+        private readonly string $key,
+        private readonly array $view,
+    )
     {
     }
 

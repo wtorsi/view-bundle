@@ -9,11 +9,11 @@ use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
 
-class ReflectionPropertyAccessor implements PropertyAccessorInterface
+readonly class ReflectionPropertyAccessor implements PropertyAccessorInterface
 {
     public function __construct(
-        private readonly PropertyAccessorInterface $decorated,
-        private readonly ReflectionService $reflectionService
+        private PropertyAccessorInterface $decorated,
+        private ReflectionService $reflectionService
     )
     {
     }

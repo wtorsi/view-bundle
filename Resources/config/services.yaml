@@ -12,4 +12,4 @@ services:
 
     Dev\ViewBundle\Serializer\Normalizer\ViewNormalizer:
         class: Dev\ViewBundle\Serializer\Normalizer\ViewNormalizer
-        factory: [ '@Dev\ViewBundle\Serializer\Normalizer\ViewNormalizerFactory', 'create' ]
+        factory: [ '@Dev\ViewBundle\Serializer\Normalizer\ViewNormalizerFactory', 'create']
